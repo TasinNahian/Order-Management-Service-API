@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_milestone
 	description character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
 	message character varying(250),
-	milestone_date character varying(250),
+	milestone_date timestamp with time zone,
 	name character varying(250),
 	status character varying(250),
 	base_type character varying(250),
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_milestone
 --service_order_jeopardy_alert
 CREATE TABLE IF NOT EXISTS public.service_order_jeopardy_alert
 (
-	alert_date character varying(250),
+	alert_date timestamp with time zone,
 	exeption character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
 	jeopardy_type character varying(250),
@@ -125,7 +125,8 @@ CREATE TABLE IF NOT EXISTS public.service_order_jeopardy_alert
 -- service_order_item_ref
 CREATE TABLE IF NOT EXISTS public.service_order_item_ref
 (
-	item_id character varying(250) NOT NULL PRIMARY KEY,
+    id character varying(250) NOT NULL PRIMARY KEY,
+	item_id character varying(250),
 	service_order_href character varying(250),
 	service_order_id character varying(250),
 	base_type character varying(250),
@@ -178,7 +179,7 @@ CREATE TABLE IF NOT EXISTS public.service_ref_or_value
 (
 	category character varying(250),
 	description character varying(250),
-	end_date character varying(250),
+	end_date timestamp with time zone,
 	has_started BOOLEAN,
 	href character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
@@ -186,7 +187,7 @@ CREATE TABLE IF NOT EXISTS public.service_ref_or_value
 	is_service_enabled BOOLEAN,
 	is_stateful BOOLEAN,
 	name character varying(250),
-	service_date character varying(250),
+	service_date timestamp with time zone,
 	service_type character varying(250),
 	start_date timestamp with time zone,
 	start_mode character varying(250),

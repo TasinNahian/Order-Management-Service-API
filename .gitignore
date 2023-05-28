@@ -24,12 +24,12 @@ hs_err_pid*
 replay_pid*
 
 # Target folder
-app/target/
+app/target
 
 # .iml file
 app/service-ordering-mgmt.iml 
 
 # .idea folder
-app/.idea
+.idea
 
 

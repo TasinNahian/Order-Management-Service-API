@@ -6,9 +6,9 @@ import lombok.Data;
 public class Characteristic extends BaseBundled{
     private String id;
     private String name;
-    private String value_type;
     private String value;
+    private String value_type;
     private String featureId;
-    private String serviceId;
+    private String serviceRefOrValueId;
     private String serviceRelationshipId;
 }

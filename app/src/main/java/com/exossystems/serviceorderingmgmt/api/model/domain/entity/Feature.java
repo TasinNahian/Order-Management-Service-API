@@ -8,6 +8,6 @@ public class Feature {
     private boolean isBundle;
     private boolean isEnabled;
     private String name;
-    private String serviceId;
+    private String serviceRefOrValueId;
 
 }

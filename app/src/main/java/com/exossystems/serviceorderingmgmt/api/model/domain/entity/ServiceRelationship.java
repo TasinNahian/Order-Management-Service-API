@@ -4,9 +4,8 @@ import lombok.Data;
 
 @Data
 public class ServiceRelationship extends BaseBundled{
-    private String id;
     private String href;
+    private String id;
     private String relationshipType;
-    private String service;
-    private String serviceId;
+    private String serviceRefOrValueId;
 }

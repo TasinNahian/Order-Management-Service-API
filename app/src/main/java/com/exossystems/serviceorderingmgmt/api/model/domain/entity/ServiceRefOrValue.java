@@ -3,13 +3,13 @@ package com.exossystems.serviceorderingmgmt.api.model.domain.entity;
 import lombok.Data;
 
 @Data
-public class ServiceRef extends BaseBundled{
-    private String id;
-    private String href;
+public class ServiceRefOrValue extends BaseBundled{
     private String category;
     private String description;
     private String endDate;
     private boolean hasStarted;
+    private String href;
+    private String id;
     private boolean isBundle;
     private boolean isServiceEnabled;
     private boolean isStateful;
@@ -21,4 +21,6 @@ public class ServiceRef extends BaseBundled{
     private String state;
     private String referredType;
     private String serviceOrderItemId;
+    private String supportingService;
+    private String serviceRelationshipId;
 }

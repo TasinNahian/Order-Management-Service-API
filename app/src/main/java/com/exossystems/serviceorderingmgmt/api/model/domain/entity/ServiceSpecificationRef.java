@@ -5,12 +5,10 @@ import lombok.Data;
 
 @Data
 public class ServiceSpecificationRef extends BaseBundled{
-    private String id;
     private String href;
+    private String id;
     private String name;
     private String version;
-    private String serviceId;
-    private String featureId;
-    @JsonProperty("@referredType")
     private String referredType;
+    private String serviceRefOrId;
 }

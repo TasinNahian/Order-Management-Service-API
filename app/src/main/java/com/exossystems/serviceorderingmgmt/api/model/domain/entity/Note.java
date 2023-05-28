@@ -5,11 +5,10 @@ import lombok.Data;
 import java.sql.Timestamp;
 @Data
 public class Note extends BaseBundled{
-    private String id;
     private String author;
     private Timestamp date;
-    private String system;
+    private String id;
     private String text;
     private String serviceOrderId;
-    private String serviceId;
+    private String serviceRefOrValueId;
 }
