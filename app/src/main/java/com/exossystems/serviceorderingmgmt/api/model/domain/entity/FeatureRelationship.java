@@ -2,11 +2,13 @@ package com.exossystems.serviceorderingmgmt.api.model.domain.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class FeatureRelationship {
+public class FeatureRelationship implements Serializable {
     private String id;
     private String name;
     private String relationshipType;
-    private String validFor;
     private String featureId;
+    private String validForId;
 }

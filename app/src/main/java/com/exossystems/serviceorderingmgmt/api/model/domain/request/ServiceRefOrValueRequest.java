@@ -4,10 +4,11 @@ import com.exossystems.serviceorderingmgmt.api.model.domain.entity.BaseBundled;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class ServiceRefOrValueRequest extends BaseBundled {
+public class ServiceRefOrValueRequest extends BaseBundled implements Serializable {
     private String category;
     private String description;
     private String endDate;

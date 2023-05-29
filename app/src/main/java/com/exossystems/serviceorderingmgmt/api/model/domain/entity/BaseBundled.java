@@ -2,7 +2,9 @@ package com.exossystems.serviceorderingmgmt.api.model.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public abstract class BaseBundled {
+import java.io.Serializable;
+
+public abstract class BaseBundled implements Serializable {
     @JsonProperty("@baseType")
     private String baseType;
     @JsonProperty("@schemaLocation")

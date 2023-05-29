@@ -4,10 +4,11 @@ import com.exossystems.serviceorderingmgmt.api.model.domain.entity.BaseBundled;
 import com.exossystems.serviceorderingmgmt.api.model.domain.entity.CharacteristicRelationship;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class CharacteristicRequest extends BaseBundled {
+public class CharacteristicRequest extends BaseBundled implements Serializable {
     private String id;
     private String name;
     private String value;

@@ -2,10 +2,12 @@ package com.exossystems.serviceorderingmgmt.api.model.services.impl;
 
 import com.exossystems.serviceorderingmgmt.api.model.domain.entity.*;
 import com.exossystems.serviceorderingmgmt.api.model.domain.request.*;
-import com.exossystems.serviceorderingmgmt.api.model.domain.request.Item;
-import com.exossystems.serviceorderingmgmt.api.model.services.ServiceOrderRequestService;
+import com.exossystems.serviceorderingmgmt.api.model.domain.response.ServiceOrderResponse;
+import com.exossystems.serviceorderingmgmt.api.model.services.ServiceOrderService;
 import com.exossystems.serviceorderingmgmt.api.util.Defs;
+import com.exossystems.serviceorderingmgmt.repository.db.model.ServiceOrderDaoReadRepository;
 import com.exossystems.serviceorderingmgmt.repository.db.model.ServiceOrderDaoWriteRepository;
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,28 +16,29 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class ServiceOrderServiceImpl implements ServiceOrderRequestService {
+public class ServiceOrderServiceImpl implements ServiceOrderService {
     private final ServiceOrderDaoWriteRepository serviceOrderDaoWriteRepository;
-
+    private final ServiceOrderDaoReadRepository serviceOrderDaoReadRepository;
 
     private static final Logger LOGGER = LogManager.getLogger(ServiceOrderServiceImpl.class);
     @Override
-    public void saveServiceOrderRequest(ServiceOrderRequest serviceOrderRequest) {
+    public ServiceOrderResponse saveServiceOrderRequest(ServiceOrderRequest serviceOrderRequest) {
         String serviceOrderId = serviceOrderDaoWriteRepository.getNextSequenceValue(Defs.SERVICE_ORDER_ID_SEQUENCE).toString();
 
-        serviceOrderRequest.setId(serviceOrderId);
 
         ServiceOrder serviceOrder = new ServiceOrder();
 
         BeanUtils.copyProperties(serviceOrderRequest, serviceOrder);
+        serviceOrder.setId(serviceOrderId);
 
         LOGGER.info("Saving Service Order ...");
         //save ServiceOrder in db
-        //todo
+        System.out.println(serviceOrder);
         serviceOrderDaoWriteRepository.saveServiceOrder(serviceOrder);
 
         //externalReferenceRequest
@@ -87,6 +90,14 @@ public class ServiceOrderServiceImpl implements ServiceOrderRequestService {
             saveRelatedPartyRequest(relatedPartyRequestList, serviceOrderId, null);
         }
 
+        ServiceOrderResponse serviceOrderResponse = new ServiceOrderResponse();
+        BeanUtils.copyProperties(serviceOrderRequest, serviceOrderResponse);
+        serviceOrderResponse.setId(serviceOrderId);
+        String jsonString = new Gson().toJson(serviceOrderRequest);
+        serviceOrderDaoWriteRepository.saveServiceOrderJson(serviceOrderId, jsonString);
+
+        return serviceOrderResponse;
+
     }
 
     @Override
@@ -119,8 +130,6 @@ public class ServiceOrderServiceImpl implements ServiceOrderRequestService {
             serviceOrderRelationship.setBaseType(serviceOrderRelationshipRequest.getBaseType());
             serviceOrderRelationship.setSchemaLocation(serviceOrderRelationshipRequest.getSchemaLocation());
             serviceOrderRelationship.setType(serviceOrderRelationshipRequest.getType());
-
-            LOGGER.info("Saving ServiceOrderRelationshipRequest ...");
             //todo
             serviceOrderDaoWriteRepository.saveServiceOrderRelationship(serviceOrderRelationship);
         }
@@ -333,7 +342,7 @@ public class ServiceOrderServiceImpl implements ServiceOrderRequestService {
             serviceOrderItemRef.setSchemaLocation(serviceOrderItemRefRequest.getSchemaLocation());
             serviceOrderItemRef.setType(serviceOrderItemRefRequest.getType());
             //todo
-            serviceOrderDaoWriteRepository.saveServiceOrderItem(serviceOrderItemRef);
+            serviceOrderDaoWriteRepository.saveServiceOrderItemRef(serviceOrderItemRef);
         }
     }
 
@@ -593,7 +602,18 @@ public class ServiceOrderServiceImpl implements ServiceOrderRequestService {
 
             //todo
             serviceOrderDaoWriteRepository.saveFeatureRelationship(featureRelationship);
+            if(featureRelationshipRequest.getValidFor() != null) {
+                saveValidForRequest(featureRelationshipRequest.getValidFor());
+            }
         }
+    }
+    @Override
+    public void saveValidForRequest(ValidForRequest validForRequest){
+        ValidFor validFor = new ValidFor();
+        BeanUtils.copyProperties(validForRequest, validFor);
+
+        validFor.setId(serviceOrderDaoWriteRepository.getNextSequenceValue(Defs.SERVICE_ORDER_ID_SEQUENCE).toString());
+        serviceOrderDaoWriteRepository.saveValidFor(validFor);
     }
     public void saveRelatedPlaceRefOrValueRequest(List<RelatedPlaceRefOrValueRequest> place, String serviceRefOrValueId) {
         for(RelatedPlaceRefOrValueRequest relatedPlaceRefOrValueRequest : place){
@@ -683,6 +703,15 @@ public class ServiceOrderServiceImpl implements ServiceOrderRequestService {
             //todo
             serviceOrderDaoWriteRepository.saveServiceSpecificationRef(serviceSpecificationRef);
         }
+    }
+
+    @Override
+    public ServiceOrderResponse getServiceOrderJsonById(String id){
+        ServiceOrderJson serviceOrderJson = serviceOrderDaoReadRepository.getServiceOrderJson(id);
+        if(Objects.isNull(serviceOrderJson)){
+            throw new RuntimeException("ServiceOrderJson is not found with this id!");
+        }
+        return new Gson().fromJson(serviceOrderJson.getData(), ServiceOrderResponse.class);
     }
 
 }

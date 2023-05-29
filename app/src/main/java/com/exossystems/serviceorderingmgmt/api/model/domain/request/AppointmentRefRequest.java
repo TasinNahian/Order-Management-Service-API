@@ -4,8 +4,10 @@ import com.exossystems.serviceorderingmgmt.api.model.domain.entity.BaseBundled;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class AppointmentRefRequest extends BaseBundled {
+public class AppointmentRefRequest extends BaseBundled implements Serializable {
     private String description;
     private String href;
     private String id;

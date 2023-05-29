@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_milestone
 	description character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
 	message character varying(250),
-	milestone_date timestamp with time zone,
+	milestone_date character varying(250),
 	name character varying(250),
 	status character varying(250),
 	base_type character varying(250),
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_milestone
 --service_order_jeopardy_alert
 CREATE TABLE IF NOT EXISTS public.service_order_jeopardy_alert
 (
-	alert_date timestamp with time zone,
+	alert_date character varying(250),
 	exeption character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
 	jeopardy_type character varying(250),
@@ -125,8 +125,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_jeopardy_alert
 -- service_order_item_ref
 CREATE TABLE IF NOT EXISTS public.service_order_item_ref
 (
-    id character varying(250) NOT NULL PRIMARY KEY,
-	item_id character varying(250),
+	item_id character varying(250) NOT NULL PRIMARY KEY,
 	service_order_href character varying(250),
 	service_order_id character varying(250),
 	base_type character varying(250),
@@ -179,7 +178,7 @@ CREATE TABLE IF NOT EXISTS public.service_ref_or_value
 (
 	category character varying(250),
 	description character varying(250),
-	end_date timestamp with time zone,
+	end_date character varying(250),
 	has_started BOOLEAN,
 	href character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
@@ -187,7 +186,7 @@ CREATE TABLE IF NOT EXISTS public.service_ref_or_value
 	is_service_enabled BOOLEAN,
 	is_stateful BOOLEAN,
 	name character varying(250),
-	service_date timestamp with time zone,
+	service_date character varying(250),
 	service_type character varying(250),
 	start_date timestamp with time zone,
 	start_mode character varying(250),
@@ -203,7 +202,7 @@ CREATE TABLE IF NOT EXISTS public.service_ref_or_value
 );
 
 
--- Note 
+-- Note
 CREATE TABLE IF NOT EXISTS public.note
 (
 	author character varying(250),
@@ -230,9 +229,9 @@ CREATE TABLE IF NOT EXISTS public.service_relationship
 	type character varying(250),
 	service_ref_or_value_id character varying(250),
 	FOREIGN KEY (service_ref_or_value_id) REFERENCES service_ref_or_value(id)
-);	
+);
 ALTER TABLE service_ref_or_value ADD COLUMN service_relationship_id character varying(250);
-ALTER TABLE service_ref_or_value ADD CONSTRAINT service_relationship_id FOREIGN KEY (service_relationship_id) REFERENCES service_ref_or_value(id); 
+ALTER TABLE service_ref_or_value ADD CONSTRAINT service_relationship_id FOREIGN KEY (service_relationship_id) REFERENCES service_ref_or_value(id);
 
 
 --related_party
@@ -261,19 +260,27 @@ CREATE TABLE IF NOT EXISTS public.feature
 	service_ref_or_value_id character varying(250),
 	FOREIGN KEY (service_ref_or_value_id) REFERENCES service_ref_or_value(id)
 );
+
+--valid_for
+CREATE TABLE IF NOT EXISTS public.valid_for
+(
+	id character varying(250) NOT NULL PRIMARY KEY,
+	start_date_time character varying(250),
+	end_date_time character varying(250)
+);
 --feature_relationship
 CREATE TABLE IF NOT EXISTS public.feature_relationship
 (
 	id character varying(250) NOT NULL PRIMARY KEY,
 	name character varying(250),
 	relationship_type character varying(250),
-	valid_for tstzrange,
 	feature_id character varying(250),
-	FOREIGN KEY(feature_id) REFERENCES feature(id)
-	
+	FOREIGN KEY(feature_id) REFERENCES feature(id),
+	valid_for_id character varying(250),
+	FOREIGN KEY(valid_for_id) REFERENCES valid_for(id)
 );
---constraint 
-CREATE TABLE IF NOT EXISTS public.constraint
+--constraint
+CREATE TABLE IF NOT EXISTS public.constraint_ref
 (
 	href character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
@@ -288,7 +295,7 @@ CREATE TABLE IF NOT EXISTS public.constraint
 );
 
 
---characteristic 
+--characteristic
 CREATE TABLE IF NOT EXISTS public.characteristic
 (
 	id character varying(250) NOT NULL PRIMARY KEY,
@@ -298,14 +305,14 @@ CREATE TABLE IF NOT EXISTS public.characteristic
 	base_type character varying(250),
 	schema_location character varying(250),
 	type character varying(250),
-	feature_id character varying(250),
+	feature_id character varying(250) UNIQUE,
 	FOREIGN KEY(feature_id) REFERENCES feature(id),
 	service_ref_or_value_id character varying(250),
 	FOREIGN KEY(service_ref_or_value_id) REFERENCES service_ref_or_value(id),
 	service_relationship_id character varying(250),
 	FOREIGN KEY (service_relationship_id) REFERENCES service_relationship(id)
 );
---characteristic_relationship 
+--characteristic_relationship
 CREATE TABLE IF NOT EXISTS public.characteristic_relationship
 (
 	href character varying(250),
@@ -316,7 +323,7 @@ CREATE TABLE IF NOT EXISTS public.characteristic_relationship
 	type character varying(250),
 	characteristic_id character varying(250),
 	FOREIGN KEY (characteristic_id) REFERENCES characteristic(id)
-);	
+);
 
 --related_place_ref_or_value
 CREATE TABLE IF NOT EXISTS public.related_place_ref_or_value
@@ -365,6 +372,20 @@ CREATE TABLE IF NOT EXISTS public.related_service_order_item
 	FOREIGN KEY (service_ref_or_value_id) REFERENCES service_ref_or_value(id)
 );
 
+--resource_ref
+CREATE TABLE IF NOT EXISTS public.resource_ref
+(
+	href character varying(250),
+	id character varying(250) NOT NULL PRIMARY KEY,
+	name character varying(250),
+	base_type character varying(250),
+	referred_type character varying(250),
+	schema_location character varying(250),
+	type character varying(250),
+	service_ref_or_value_id character varying(250),
+	FOREIGN KEY (service_ref_or_value_id) REFERENCES service_ref_or_value(id)
+);
+
 --service_specification_ref
 CREATE TABLE IF NOT EXISTS public.service_specification_ref
 (
@@ -376,6 +397,11 @@ CREATE TABLE IF NOT EXISTS public.service_specification_ref
 	referred_type character varying(250),
 	schema_location character varying(250),
 	type character varying(250),
-	service_ref_or_value_id character varying(250),
+	service_ref_or_value_id character varying(250) UNIQUE,
 	FOREIGN KEY (service_ref_or_value_id) REFERENCES service_ref_or_value(id)
 );
+
+
+
+
+

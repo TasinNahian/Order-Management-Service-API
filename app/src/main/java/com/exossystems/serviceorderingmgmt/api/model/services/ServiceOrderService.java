@@ -1,12 +1,13 @@
 package com.exossystems.serviceorderingmgmt.api.model.services;
 
 import com.exossystems.serviceorderingmgmt.api.model.domain.request.*;
+import com.exossystems.serviceorderingmgmt.api.model.domain.response.ServiceOrderResponse;
 
 import java.util.List;
 
-public interface ServiceOrderRequestService {
+public interface ServiceOrderService {
 
-    void saveServiceOrderRequest(ServiceOrderRequest serviceOrderRequest);
+    ServiceOrderResponse saveServiceOrderRequest(ServiceOrderRequest serviceOrderRequest);
     void saveExternalReferenceRequest(List<ExternalReferenceRequest> externalReferenceRequestList, String serviceOrderId);
     void saveServiceOrderRelationshipRequest(List<ServiceOrderRelationshipRequest> serviceOrderRelationshipRequestList, String serviceOrderId);
     void saveServiceOrderItemRequest(List<ServiceOrderItemRequest> serviceOrderItemRequestList, String serviceOrderId);
@@ -30,12 +31,13 @@ public interface ServiceOrderRequestService {
     void saveConstraintRequest(List<ConstraintRequest> constraintRequestList, String featureId);
 
     void saveFeatureRelationshipRequest(List<FeatureRelationshipRequest> featureRelationshipRequestList, String featureId);
-
+    void saveValidForRequest(ValidForRequest validForRequest);
     void saveRelatedPlaceRefOrValueRequest(List<RelatedPlaceRefOrValueRequest> place, String serviceRefOrValueId);
     void saveRelatedEntityRefOrValueRequest(List<RelatedEntityRefOrValueRequest>relatedEntityRefOrValueRequestList, String serviceRefOrValueId);
     void saveRelatedServiceOrderItemRequest(List<RelatedServiceOrderItemRequest> serviceOrderItemRequestList, String serviceRefOrValueId);
     void saveResourceRefRequest(List<ResourceRefRequest>supportingResource, String serviceRefOrValueId);
     void saveServiceSpecificationRefRequest(List<ServiceSpecificationRefRequest> serviceSpecification, String serviceRefOrValueId);
 
+    ServiceOrderResponse getServiceOrderJsonById(String id);
 
 }

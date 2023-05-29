@@ -2,8 +2,10 @@ package com.exossystems.serviceorderingmgmt.api.model.domain.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class ServiceRefOrValue extends BaseBundled{
+public class ServiceRefOrValue extends BaseBundled implements Serializable {
     private String category;
     private String description;
     private String endDate;

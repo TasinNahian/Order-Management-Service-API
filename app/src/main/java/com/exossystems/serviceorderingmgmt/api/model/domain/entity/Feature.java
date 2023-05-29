@@ -2,8 +2,10 @@ package com.exossystems.serviceorderingmgmt.api.model.domain.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Feature {
+public class Feature implements Serializable {
     private String id;
     private boolean isBundle;
     private boolean isEnabled;
