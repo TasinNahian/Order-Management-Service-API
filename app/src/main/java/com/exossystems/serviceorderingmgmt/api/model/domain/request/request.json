@@ -1,363 +1,219 @@
-{  //serviceOrder
-  "cancellationDate": "2023-05-24T11:05:46.987Z",
-  "cancellationReason": "string",
-  "category": "string",
-  "description": "string",
-  "externalId": "string",
-  "notificationContact": "string",
-  "priority": "string",
-  "requestedCompletionDate": "2023-05-24T11:05:46.987Z",
-  "requestedStartDate": "2023-05-24T11:05:46.987Z",
-  // external_reference
+{
+  "id": "42",
+  "href": "http://serverlocation:port/serviceOrdering/v4/serviceOrder/42",
+  "externalId": "BSS747",
+  "priority": "1",
+  "description": "Service order description",
+  "category": "TMF resource illustration",
+  "state": "InProgress",
+  "orderDate": "2020-08-27T09:37:40.508Z",
+  "completionDate": "2025-08-27T09:37:40.508Z",
+  "requestedStartDate": "2020-08-31T09:37:40.508Z",
+  "requestedCompletionDate": "2020-08-31T09:37:40.508Z",
+  "expectedCompletionDate": "2020-08-31T09:37:40.508Z",
+  "startDate": "2020-08-31T09:37:40.508Z",
+  "@type": "ServiceOrder",
   "externalReference": [
     {
-      "id": "string", when create chck if id present
-      "href": "string",
-      "externalReferenceType": "string",
-      "name": "string",
-      "@baseType": "string",
-      "@schemaLocation": "string",
-      "@type": "string"
+      "href": "http://serverlocation:port/serviceOrdering/v4/serviceOrder/42",
+      "externalReferenceType": "Employee",
+      "name": "Tasin Nahian",
+      "@baseType": "stringExternalReference",
+      "@schemaLocation": "stringExternalReference",
+      "@type": "ExternalReference"
     }
   ],
-  //note
-  "note": [
-    {
-      "id": [
-        "afa9-3d90aaa8da0f"
-      ],
-      "author": [
-        "Mr. N. Bene"
-      ],
-      "date": [
-        "2020-11-20T08:00:00Z"
-      ],
-      "text": [
-        "This is important"
-      ],
-      "@baseType": "string",
-      "@schemaLocation": "string",
-      "@type": "string"
-    }
-  ],
-  // service_order_relationship
   "orderRelationship": [
     {
-      "id": "string",
-      "href": "string",
-      "relationshipType": "string",
-      "@baseType": "string",
-      "@schemaLocation": "string",
-      "@type": "string",
-      "@referredType": "string"
+      "id": "stringOrderRelationship",
+      "href": "stringOrderRelationship",
+      "relationshipType": "stringOrderRelationship",
+      "@baseType": "stringOrderRelationship",
+      "@schemaLocation": "stringOrderRelationship",
+      "@type": "stringOrderRelationship",
+      "@referredType": "stringOrderRelationship"
     }
   ],
-  //related_party
+  "note": [
+    {
+      "date": "2020-08-27T09:37:40.508Z",
+      "id": "1",
+      "author": "Harvey Poupon",
+      "text": "Some text"
+    }
+  ],
   "relatedParty": [
     {
-      "id": "string",
-      "href": "string",
-      "name": "string",
-      "role": "string",
-      "@baseType": "string",
-      "@schemaLocation": "string",
-      "@type": "string",
-      "@referredType": "string"
+      "id": "456",
+      "href": "http://serverlocation:port/partyManagement/v4/party/456",
+      "role": "requester",
+      "name": "Jean Pontus",
+      "@referredType": "Individual"
     }
+
   ],
-//  service_order_item
-  "serviceOrderItem": [
+  "jeopardyAlert": [
     {
-      "id": "string",
-      "quantity": 0,
-      "action": "add",
-      //appointment
-      "appointment": {
-        "id": "string",
-        "href": "string",
-        "description": "string",
-        "@baseType": "string",
-        "@schemaLocation": "string",
-        "@type": "string",
-        "@referredType": "string"
-      },
-      //error_message
-      "errorMessage": [
+      "id": "144",
+      "alertDate": "2020-08-27T23:17:45.450Z",
+      "exception": "Order Item Completion is in Jeopardy",
+      "jeopardyType": "Raised",
+      "message": "Order Item Completion is in Jeopardy",
+      "name": "Order Item Completion",
+      "serviceOrderItem": [
         {
-          "code": "string",
-          "message": "string",
-          "reason": "string",
-          "referenceError": "string",
-          "status": "string",
-          "timestamp": "2023-05-24T11:05:46.987Z",
-          "@baseType": "string",
-          "@schemaLocation": "string",
-          "@type": "string"
+          "itemId": "1",
+          "serviceOrderHref": "http://serverlocation:port/serviceOrdering/v4/serviceOrder/42",
+          "serviceOrderId": "42"
         }
       ],
-      //service
+      "@type": "ServiceOrderJeopardyAlert"
+    }
+  ],
+  "milestone": [
+    {
+      "id": "143",
+      "description": "Port Allocation",
+      "message": "Port Allocation",
+      "milestoneDate": "2020-08-27T23:17:45.450Z",
+      "name": "Port Allocation",
+      "status": "Completed",
+      "serviceOrderItem": [
+        {
+          "itemId": "2",
+          "serviceOrderHref": "http://serverlocation:port/serviceOrdering/v4/serviceOrder/42",
+          "serviceOrderId": "42"
+        }
+      ],
+      "@type": "ServiceOrderMilestone"
+    }
+  ],
+  "errorMessage": [
+    {
+      "code": "500",
+      "message": "Resource Fallout",
+      "reason": "IP address not available",
+      "referenceError": "http://serverlocation:port/serviceOrdering/v4/errorMessage/500",
+      "status": "ERROR-003",
+      "timestamp": "2020-08-27T23:17:45.450Z",
+      "@type": "ServiceOrderItemErrorMessage"
+    }
+  ],
+  "serviceOrderItem": [
+    {
+      "id": "1",
+      "action": "add",
+      "state": "InProgress",
       "service": {
-        "id": "string",
-        "href": "string",
-        "category": "string",
-        "description": "string",
-        "endDate": "2023-05-24T11:05:46.987Z",
-        "hasStarted": true,
-        "isBundle": true,
-        "isServiceEnabled": true,
-        "isStateful": true,
-        "name": "string",
-        "serviceDate": "string",
-        "serviceType": "string",
-        "startDate": "2023-05-24T11:05:46.987Z",
-        "startMode": "string",
-        //feature
-        "feature":
-        [
+        "@type": "Service",
+        "state": "active",
+        "serviceType": "CFS",
+        "serviceCharacteristic": [
           {
-            "id": "string",
-            "isBundle": true,
+            "id": "452-gh6",
+            "name": "vCPE",
+            "valueType": "object",
+            "value": "serviceCharacteristicsValue"
+          }
+        ],
+        "serviceRelationship":[
+          {
+            "relationshipType": "reliesOn",
+            "service": {
+              "href": "https://.../serviceManagement/v4/service/45",
+              "id": "45"
+            }
+          }
+        ],
+        "relatedParty":[
+          {
+            "name": "relatedParty"
+          }
+        ],
+        "feature": [
+          {
+            "id": "Feat1",
             "isEnabled": true,
-            "name": "string",
-            //constraint--also known as service_specification_ref
-            "constraint": [
+            "name": "DataDownload",
+            "@type": "Feature",
+            "featureCharacteristics": [
               {
-                "id": "string",
-                "href": "string",
-                "name": "string",
-                "version": "string",
-                "@baseType": "string",
-                "@schemaLocation": "string",
-                "@type": "string",
-                "@referredType": "string"
+                "name": "VolumeCapped",
+                "id": "444",
+                "value": "true",
+                "valueType": "boolean"
               }
             ],
-            //characteristic
-            "featureCharacteristic": [
-              {
-                "id": "string",
-                "name": "string",
-                "valueType": "string",
-                //characteristic_relationship or service_order_relationship
-                "characteristicRelationship": [
-                  {
-                    "id": "string",
-                    "href": "string",
-                    "relationshipType": "string",
-                    "@baseType": "string",
-                    "@schemaLocation": "string",
-                    "@type": "string"
-                  }
-                ],
-                "value": "string",
-                "@baseType": "string",
-                "@schemaLocation": "string",
-                "@type": "string"
-              }
-            ],
-            //feature_relationship
             "featureRelationship": [
               {
-                "id": "string",
-                "name": "string",
-                "relationshipType": "string",
-                //valid_for
+                "name": "featureRelationshipName",
+                "relationshipType": "featureRelation",
                 "validFor": {
-                  "endDateTime": "1985-04-12T23:20:50.52Z",
-                  "startDateTime": "1985-04-12T23:20:50.52Z"
+                  "startDateTime": "2025-08-27T09:37:40.508Z",
+                  "endDateTime": "2025-08-27T09:37:40.508Z"
                 }
+              }
+            ],
+            "constraint": [
+              {
+                "href": "constraintRef",
+                "name": "limited",
+                "version": "new"
               }
             ]
           }
         ],
-        "note": [
-          {
-            "id": [
-              "afa9-3d90aaa8da0f"
-            ],
-            "author": [
-              "Mr. N. Bene"
-            ],
-            "date": [
-              "2020-11-20T08:00:00Z"
-            ],
-            "text": [
-              "This is important"
-            ],
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string"
-          }
-        ],
         "place": [
           {
-            "id": "string",
-            "href": "string",
-            "name": "string",
-            "role": "string",
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string",
-            "@referredType": "string"
+            "name" : "relatedPlaceRefOrValue"
           }
         ],
-        //related_entity
         "relatedEntity": [
           {
-            "id": "string",
-            "href": "string",
-            "name": "string",
-            "role": "string",
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string",
-            "@referredType": "string"
+            "name": "relatedEntityRefOrValue"
           }
         ],
-        "relatedParty": [
-          {
-            "id": "string",
-            "href": "string",
-            "name": "string",
-            "role": "string",
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string",
-            "@referredType": "string"
-          }
-        ],
-        //service_characteristic
-        "serviceCharacteristic": [
-          {
-            "id": "string",
-            "name": "string",
-            "valueType": "string",
-            //characteristic_relationship
-            "characteristicRelationship": [
-              {
-                "id": "string",
-                "href": "string",
-                "relationshipType": "string",
-                "@baseType": "string",
-                "@schemaLocation": "string",
-                "@type": "string"
-              }
-            ],
-            "value": "string",
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string"
-          }
-        ],
-        //item
         "serviceOrderItem": [
           {
-            "id": "string",
-            "href": "string",
-            "itemId": "string",
-            "role": "string",
-            "serviceOrderHref": "string",
-            "serviceOrderId": "string",
-            "itemAction": "add",
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string",
-            "@referredType": "string"
+            "role": "RelatedserviceOrderItem"
           }
         ],
-        // sub_resource_service_relationship
-        "serviceRelationship": [
+        "supportingResource": [
           {
-            "id": "string",
-            "href": "string",
-            "relationshipType": "string",
-            "service": "string",
-            //service_characteristic
-            "serviceRelationshipCharacteristic": [
-              {
-                "id": "string",
-                "name": "string",
-                "valueType": "string",
-                //characteristic_relationship
-                "characteristicRelationship": [
-                  {
-                    "id": "string",
-                    "href": "string",
-                    "relationshipType": "string",
-                    "@baseType": "string",
-                    "@schemaLocation": "string",
-                    "@type": "string"
-                  }
-                ],
-                "value": "string",
-                "@baseType": "string",
-                "@schemaLocation": "string",
-                "@type": "string"
-              }
-            ],
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string"
+            "id": "3456_DFG5-H690",
+            "href": "http://...",
+            "@referredType": "CloudResource"
           }
         ],
         "serviceSpecification": {
-          "id": "string",
-          "href": "string",
-          "name": "string",
-          "version": "string",
-          "@baseType": "string",
-          "@schemaLocation": "string",
-          "@type": "string",
-          "@referredType": "string"
+          "id": "48",
+          "href": "http//..../48",
+          "name": "genericDataService48",
+          "version": "2"
         },
-        "state": "feasibilityChecked",
-        //resource_ref
-        "supportingResource": [
-          {
-            "id": "string",
-            "href": "string",
-            "name": "string",
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string",
-            "@referredType": "string"
-          }
-        ],
-        //supporting_service
-        "supportingService": [
-          "string"
-        ],
-        "@baseType": "string",
-        "@schemaLocation": "string",
-        "@type": "string",
-        "@referredType": "string"
+        "serviceSpecification": {
+          "@type": "ONAPServiceSpecificationRef",
+          "@schemaLocation": "http://my.schema/ONAPServiceSpecificationRef.json",
+          "id": "ONAPvCPE_Spec",
+          "href": "http://../serviceSpecification/ONAPvCPE_Spec",
+          "name": "vCPE",
+          "version": "1",
+          "invariantUUID": "456-852-357",
+          "toscaModelURL": "http//..."
+        }
       },
-      //
-      "serviceOrderItem": [
-        "string"
-      ],
-      "serviceOrderItemRelationship": [
+      "errorMessage": [
         {
-          "relationshipType": "string",
-          //order_item
-          "orderItem": {
-            "itemId": "string",
-            "serviceOrderHref": "string",
-            "serviceOrderId": "string",
-            "@baseType": "string",
-            "@schemaLocation": "string",
-            "@type": "string",
-            "@referredType": "string"
-          },
-          "@baseType": "string",
-          "@schemaLocation": "string",
-          "@type": "string"
+          "code": "500",
+          "message": "Resource Fallout",
+          "reason": "IP address not available",
+          "referenceError": "http://serverlocation:port/serviceOrdering/v4/errorMessage/500",
+          "status": "ERROR-003",
+          "timestamp": "2020-08-27T23:17:45.450Z",
+          "@type": "ServiceOrderItemErrorMessage"
         }
       ],
-      "state": "acknowledged",
-      "@baseType": "string",
-      "@schemaLocation": "string",
-      "@type": "string"
+      "@type": "ServiceOrderItem"
     }
   ],
   "@baseType": "string",

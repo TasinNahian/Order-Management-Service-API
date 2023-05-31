@@ -1,9 +1,11 @@
 package com.exossystems.serviceorderingmgmt.api.model.services;
 
 import com.exossystems.serviceorderingmgmt.api.model.domain.request.*;
+import com.exossystems.serviceorderingmgmt.api.model.domain.response.PaginatedServiceOrderResponse;
 import com.exossystems.serviceorderingmgmt.api.model.domain.response.ServiceOrderResponse;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ServiceOrderService {
 
@@ -22,7 +24,7 @@ public interface ServiceOrderService {
     void saveServiceOrderItemErrorMessageRequest(List<ServiceOrderItemErrorMessageRequest> serviceOrderItemErrorMessageRequestList,String serviceOrderItemId);
     void saveAppointmentRefRequest(AppointmentRefRequest appointmentRefRequest,String serviceOrderItemId);
     void saveServiceOrderItemRefRequest(List<ServiceOrderItemRefRequest> serviceOrderItemRefRequestList, String serviceOrderItemRelationshipId, String serviceOrderErrorMessageId, String serviceOrderMilestoneId, String serviceOrderJeopardyAlertId);
-    void saveServiceRefOrValueRequest(ServiceRefOrValueRequest serviceRefOrValueRequest,String serviceOrderItemId);
+    void saveServiceRefOrValueRequest(ServiceRefOrValueRequest serviceRefOrValueRequest, String serviceOrderItemId, String serviceRelationshipId);
     void saveServiceRelationshipRequest(List<ServiceRelationshipRequest> serviceRelationship,String serviceRefOrValueId);
     void saveCharacteristicRequest(List<CharacteristicRequest> serviceCharacteristicList,String featureId, String serviceRefOrValueId, String serviceRelationshipId);
     void saveCharacteristicRelationshipRequest(List<CharacteristicRelationshipRequest> characteristicRelationshipList, String characteristicId);
@@ -36,8 +38,10 @@ public interface ServiceOrderService {
     void saveRelatedEntityRefOrValueRequest(List<RelatedEntityRefOrValueRequest>relatedEntityRefOrValueRequestList, String serviceRefOrValueId);
     void saveRelatedServiceOrderItemRequest(List<RelatedServiceOrderItemRequest> serviceOrderItemRequestList, String serviceRefOrValueId);
     void saveResourceRefRequest(List<ResourceRefRequest>supportingResource, String serviceRefOrValueId);
-    void saveServiceSpecificationRefRequest(List<ServiceSpecificationRefRequest> serviceSpecification, String serviceRefOrValueId);
+    void saveServiceSpecificationRefRequest(ServiceSpecificationRefRequest serviceSpecification, String serviceRefOrValueId);
 
-    ServiceOrderResponse getServiceOrderJsonById(String id);
+    ServiceOrderResponse getServiceOrderById(String id);
+
+    PaginatedServiceOrderResponse getPaginatedServiceOrder(Map<String, Object> requestParams, Integer limit, Integer offset);
 
 }

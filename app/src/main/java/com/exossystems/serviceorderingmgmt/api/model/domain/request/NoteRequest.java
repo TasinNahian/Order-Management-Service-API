@@ -1,16 +1,46 @@
 package com.exossystems.serviceorderingmgmt.api.model.domain.request;
 
 import com.exossystems.serviceorderingmgmt.api.model.domain.entity.BaseBundled;
-import lombok.Data;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-@Data
 public class NoteRequest extends BaseBundled implements Serializable {
     private String author;
     private Timestamp date;
     private String id;
     private String text;
-    private String serviceOrderId;
-    private String serviceRefOrValueId;
+//    private String serviceOrderId;
+//    private String serviceRefOrValueId;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }

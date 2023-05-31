@@ -1,8 +1,6 @@
 package com.exossystems.serviceorderingmgmt.repository.db.model;
 
 import com.exossystems.serviceorderingmgmt.api.model.domain.entity.*;
-import com.exossystems.serviceorderingmgmt.api.model.domain.request.ValidForRequest;
-import com.exossystems.serviceorderingmgmt.api.model.domain.response.ServiceOrderResponse;
 
 public interface ServiceOrderDaoWriteRepository {
 
@@ -14,50 +12,50 @@ public interface ServiceOrderDaoWriteRepository {
 
     boolean saveServiceOrderRelationship(ServiceOrderRelationship serviceOrderRelationship);
 
-    void saveNote(Note note);
+    Boolean saveNote(Note note);
 
-    void saveRelatedParty(RelatedParty relatedParty);
+    Boolean saveRelatedParty(RelatedParty relatedParty);
 
-    void saveServiceOrderErrorMessage(ServiceOrderErrorMessage serviceOrderErrorMessage);
+    Boolean saveServiceOrderErrorMessage(ServiceOrderErrorMessage serviceOrderErrorMessage);
 
-    void saveServiceOrderMilestone(ServiceOrderMilestone serviceOrderMilestone);
+    Boolean saveServiceOrderMilestone(ServiceOrderMilestone serviceOrderMilestone);
 
-    void saveServiceJeopardyAlert(ServiceOrderJeopardyAlert serviceOrderJeopardyAlert);
+    Boolean saveServiceJeopardyAlert(ServiceOrderJeopardyAlert serviceOrderJeopardyAlert);
 
-    void saveServiceOrderItem(ServiceOrderItem serviceOrderItem);
+    Boolean saveServiceOrderItem(ServiceOrderItem serviceOrderItem);
 
-    void saveServiceOrderItemRelationship(ServiceOrderItemRelationship serviceOrderItemRelationship);
+    Boolean saveServiceOrderItemRelationship(ServiceOrderItemRelationship serviceOrderItemRelationship);
 
-    void saveServiceOrderItemRef(ServiceOrderItemRef serviceOrderItemRef);
+    Boolean saveServiceOrderItemRef(ServiceOrderItemRef serviceOrderItemRef);
 
-    void saveServiceOrderItemErrorMessage(ServiceOrderItemErrorMessage serviceOrderItemErrorMessage);
+    Boolean saveServiceOrderItemErrorMessage(ServiceOrderItemErrorMessage serviceOrderItemErrorMessage);
 
-    void saveAppointmentRef(AppointmentRef appointmentRef);
+    Boolean saveAppointmentRef(AppointmentRef appointmentRef);
 
-    void saveServiceRefOrValue(ServiceRefOrValue serviceRefOrValue);
+    Boolean saveServiceRefOrValue(ServiceRefOrValue serviceRefOrValue);
 
-    void saveServiceRelationshipRequest(ServiceRelationship serviceRelationship);
+    Boolean saveServiceRelationshipRequest(ServiceRelationship serviceRelationship);
 
-    void saveCharacteristic(Characteristic characteristic);
+    Boolean saveCharacteristic(Characteristic characteristic);
 
-    void saveCharacterRelationship(CharacteristicRelationship characteristicRelationship);
+    Boolean saveCharacterRelationship(CharacteristicRelationship characteristicRelationship);
 
-    void saveFeature(Feature feature);
+    Boolean saveFeature(Feature feature);
 
-    void saveConstraint(Constraint constraint);
+    Boolean saveConstraint(Constraint constraint);
 
-    void saveFeatureRelationship(FeatureRelationship featureRelationship);
-    void saveValidFor(ValidFor validFor);
+    Boolean saveFeatureRelationship(FeatureRelationship featureRelationship);
+    Boolean saveValidFor(ValidFor validFor);
 
-    void saveRelatedPlaceRefOrValue(RelatedPlaceRefOrValue relatedPlaceRefOrValue);
+    Boolean saveRelatedPlaceRefOrValue(RelatedPlaceRefOrValue relatedPlaceRefOrValue);
 
-    void saveRelatedEntityRefOrValue(RelatedEntityRefOrValue relatedEntityRefOrValue);
+    Boolean saveRelatedEntityRefOrValue(RelatedEntityRefOrValue relatedEntityRefOrValue);
 
-    void saveRelatedServiceOrderItem(RelatedServiceOrderItem relatedServiceOrderItem);
+    Boolean saveRelatedServiceOrderItem(RelatedServiceOrderItem relatedServiceOrderItem);
 
-    void saveResourceRef(ResourceRef resourceRef);
+    Boolean saveResourceRef(ResourceRef resourceRef);
 
-    void saveServiceSpecificationRef(ServiceSpecificationRef serviceSpecificationRef);
+    Boolean saveServiceSpecificationRef(ServiceSpecificationRef serviceSpecificationRef);
 
     Boolean saveServiceOrderJson(String serviceOrderId, String jsonData);
 }

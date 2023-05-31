@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_error_message
 	code character varying(250),
 	message character varying(250),
 	reason character varying(250),
-	referenceError character varying(250),
+	reference_error character varying(250),
 	status character varying(250),
 	timestamp timestamp with time zone,
 	base_type character varying(250),
@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_milestone
 CREATE TABLE IF NOT EXISTS public.service_order_jeopardy_alert
 (
 	alert_date character varying(250),
-	exeption character varying(250),
+	exception character varying(250),
 	id character varying(250) NOT NULL PRIMARY KEY,
 	jeopardy_type character varying(250),
 	message character varying(250),
@@ -125,7 +125,8 @@ CREATE TABLE IF NOT EXISTS public.service_order_jeopardy_alert
 -- service_order_item_ref
 CREATE TABLE IF NOT EXISTS public.service_order_item_ref
 (
-	item_id character varying(250) NOT NULL PRIMARY KEY,
+	id character varying(250) NOT NULL PRIMARY KEY,
+	item_id character varying(250),
 	service_order_href character varying(250),
 	service_order_id character varying(250),
 	base_type character varying(250),
@@ -149,7 +150,7 @@ CREATE TABLE IF NOT EXISTS public.service_order_item_error_message
 	code character varying(250),
 	message character varying(250),
 	reason character varying(250),
-	referenceError character varying(250),
+	reference_error character varying(250),
 	status character varying(250),
 	timestamp timestamp with time zone,
 	base_type character varying(250),
