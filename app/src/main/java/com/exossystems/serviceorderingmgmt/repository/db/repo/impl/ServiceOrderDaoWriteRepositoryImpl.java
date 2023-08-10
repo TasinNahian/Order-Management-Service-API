@@ -100,7 +100,7 @@ public class ServiceOrderDaoWriteRepositoryImpl extends JdbcDaoSupport implement
         return Objects.requireNonNull(getJdbcTemplate().execute(INSERT_EXTERNAL_REFERENCE, new PreparedStatementCallback<Boolean>() {
                     @Override
                     public Boolean doInPreparedStatement(PreparedStatement preparedStatement) throws SQLException, DataAccessException {
-                        preparedStatement.setString(1, externalReference.getExternal_reference_type());
+                        preparedStatement.setString(1, externalReference.getExternalReferenceType());
                         preparedStatement.setString(2, externalReference.getHref());
                         preparedStatement.setString(3, externalReference.getId());
                         preparedStatement.setString(4, externalReference.getName());

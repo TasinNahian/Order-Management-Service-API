@@ -5,18 +5,18 @@ import java.io.Serializable;
 
 
 public class ExternalReference extends BaseBundled implements Serializable {
-    private String external_reference_type;
+    private String externalReferenceType;
     private String href;
     private String id;
     private String name;
     private String serviceOrderId;
 
-    public String getExternal_reference_type() {
-        return external_reference_type;
+    public String getExternalReferenceType() {
+        return externalReferenceType;
     }
 
-    public void setExternal_reference_type(String external_reference_type) {
-        this.external_reference_type = external_reference_type;
+    public void setExternalReferenceType(String externalReferenceType) {
+        this.externalReferenceType = externalReferenceType;
     }
 
     public String getHref() {

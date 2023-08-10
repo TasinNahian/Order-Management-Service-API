@@ -37,7 +37,7 @@ public class ServiceOrderController {
     @GetMapping(value = "/serviceOrder/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ServiceOrderResponse> getServiceOrderJsonById(@PathVariable String id){
         LOGGER.info("Call getServiceOrderJsonById {}");
-        return new ResponseEntity<>(serviceOrderService.getServiceOrderById(id), HttpStatus.OK);
+        return new ResponseEntity<>(serviceOrderService.getServiceOrderJsonById(id), HttpStatus.OK);
     }
     @GetMapping(value = "/serviceOrder", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<ServiceOrderResponse>> getPaginatedServiceOrder(@RequestParam Map<String, Object> requestParams){
@@ -59,5 +59,11 @@ public class ServiceOrderController {
         return new ResponseEntity<>(paginatedServiceOrderResponse.getServiceOrderResponseList(), headers, HttpStatus.OK);
 
     }
+
+//    @PatchMapping(value = "serviceOrder/{id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<ServiceOrderResponse> updateServiceOrder(@PathVariable String id, @RequestBody ServiceOrderRequest serviceOrderRequest){
+//        LOGGER.info("Call updateServiceOrder {}");
+//        return new ResponseEntity<>(serviceOrderService.updateServiceOrder(id, serviceOrderRequest), HttpStatus.OK);
+//    }
 
 }

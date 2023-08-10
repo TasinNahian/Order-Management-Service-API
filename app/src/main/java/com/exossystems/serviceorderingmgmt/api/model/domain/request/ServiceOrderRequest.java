@@ -24,7 +24,7 @@ public class ServiceOrderRequest extends BaseBundled implements Serializable {
     private String priority;
     private Timestamp requestedCompletionDate;
     private Timestamp requestedStartDate;
-    private String startDate;
+    private Timestamp startDate;
     private String state;
     private List<ExternalReferenceRequest> externalReference; //done
     private List<ServiceOrderRelationshipRequest> orderRelationship; //done
@@ -147,11 +147,11 @@ public class ServiceOrderRequest extends BaseBundled implements Serializable {
         this.requestedStartDate = requestedStartDate;
     }
 
-    public String getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 

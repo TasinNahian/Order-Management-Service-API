@@ -9,7 +9,7 @@ public class ServiceOrder extends BaseBundled implements Serializable {
     private String category;
     private Timestamp completionDate;
     private String description;
-    private Timestamp expectedCompletionDate; //requestedCompletionDate
+    private Timestamp expectedCompletionDate;
     private String externalId;
     private String href;
     private String id;

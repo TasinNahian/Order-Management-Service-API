@@ -15,11 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional
@@ -893,25 +891,26 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
 
 
     @Override
-    public ServiceOrderResponse getServiceOrderById(String id){
-        ServiceOrderJson serviceOrderJson = serviceOrderDaoReadRepository.getServiceOrderJson(id);
+    public ServiceOrderResponse getServiceOrderJsonById(String id){
+        ServiceOrderJson serviceOrderJson = serviceOrderDaoReadRepository.getServiceOrderJsonById(id);
         if(Objects.isNull(serviceOrderJson)){
             //todo will create customised exception
             throw new RuntimeException("ServiceOrderJson is not found with this id!");
         }
         return new Gson().fromJson(serviceOrderJson.getData(), ServiceOrderResponse.class);
     }
+    //getPaginatedServiceOrder retrieves data from json table
     @Override
     public PaginatedServiceOrderResponse getPaginatedServiceOrder(Map<String, Object> requestParams, Integer limit, Integer offset){
         PaginatedServiceOrderResponse paginatedServiceOrderResponse = new PaginatedServiceOrderResponse();
         Long totalServiceOrderCount = serviceOrderDaoReadRepository.getTotalServiceOrder();
         paginatedServiceOrderResponse.setTotalCount(totalServiceOrderCount);
 
-        List<String> serviceOrderIdList = serviceOrderDaoReadRepository.getPaginatedServiceOrder(limit, offset);
+        List<String> serviceOrderIdList = serviceOrderDaoReadRepository.getPaginatedServiceOrderId(limit, offset);
         List<ServiceOrderResponse> serviceOrderResponseList = new ArrayList<>();
         if(serviceOrderIdList != null && !serviceOrderIdList.isEmpty()){
             for(String serviceOrderId : serviceOrderIdList){
-                ServiceOrderResponse serviceOrderResponse = this.getServiceOrderById(serviceOrderId);
+                ServiceOrderResponse serviceOrderResponse = this.getServiceOrderJsonById(serviceOrderId);
                 serviceOrderResponseList.add(serviceOrderResponse);
             }
         }
@@ -920,5 +919,194 @@ public class ServiceOrderServiceImpl implements ServiceOrderService {
         return paginatedServiceOrderResponse;
     }
 
+    //todo
+    @Override
+    public ServiceOrderResponse updateServiceOrder(String serviceOrderId, ServiceOrderRequest serviceOrderRequest) {
+        ServiceOrder serviceOrder = serviceOrderDaoReadRepository.getServiceOrderById(serviceOrderId);
+        if (Objects.isNull(serviceOrder)) {
+//            throw new SureNotFoundException(Defs.SERVICE_ORDER_NOT_FOUND);
+        }
+        //todo more validation
+
+
+        Map<String, String> map = new HashMap<>();
+        if (serviceOrderRequest.getCancellationDate() != null) {
+            map.put("cancellation_date", "'"+serviceOrderRequest.getCancellationDate()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getCancellationReason())) {
+            map.put("cancellation_reason", "'"+serviceOrderRequest.getCancellationReason()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getCategory())) {
+            map.put("category", "'"+serviceOrderRequest.getCategory()+"'");
+        }
+        if (serviceOrderRequest.getCompletionDate() != null) {
+            map.put("completion_date", "'"+serviceOrderRequest.getCompletionDate()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getDescription())) {
+            map.put("description", "'"+serviceOrderRequest.getDescription()+"'");
+        }
+        if (serviceOrderRequest.getExpectedCompletionDate() != null) {
+            map.put("expected_completion_date", "'"+serviceOrderRequest.getExpectedCompletionDate()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getExternalId())) {
+            map.put("external_id", "'"+serviceOrderRequest.getExternalId()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getHref())) {
+            map.put("href", "'"+serviceOrderRequest.getHref()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getId())) {
+            map.put("id", "'"+serviceOrderRequest.getId()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getNotificationContact())) {
+            map.put("notification_contact", "'"+serviceOrderRequest.getNotificationContact()+"'");
+        }
+        if (serviceOrderRequest.getOrderDate() != null) {
+            map.put("order_date", "'"+serviceOrderRequest.getOrderDate()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getPriority())) {
+            map.put("priority", "'"+serviceOrderRequest.getPriority()+"'");
+        }
+        if (serviceOrderRequest.getRequestedCompletionDate() != null) {
+            map.put("requested_completion_date", "'"+serviceOrderRequest.getRequestedCompletionDate()+"'");
+        }
+        if (serviceOrderRequest.getRequestedStartDate() != null) {
+            map.put("requested_start_date", "'"+serviceOrderRequest.getRequestedStartDate()+"'");
+        }
+        if (serviceOrderRequest.getStartDate() != null) {
+            map.put("start_date", "'"+serviceOrderRequest.getStartDate()+"'");
+        }
+        if (StringUtils.hasLength(serviceOrderRequest.getState())) {
+            map.put("state", "'"+serviceOrderRequest.getState()+"'");
+        }
+        if(!map.isEmpty()){
+            serviceOrderDaoWriteRepository.updateServiceOrderById(serviceOrderId, map);
+        }
+
+        ServiceOrder serviceOrderUpdated = serviceOrderDaoReadRepository.getServiceOrderById(serviceOrderId);
+        BeanUtils.copyProperties(serviceOrderUpdated, serviceOrderRequest);
+
+        if(serviceOrderRequest.getExternalReference() != null || serviceOrderRequest.getExternalReference().isEmpty()){
+            deleteExternalReferenceByServiceOrderId(serviceOrderId);
+            this.saveExternalReferenceRequest(serviceOrderRequest.getExternalReference(), serviceOrderId);
+        }else{
+            serviceOrderRequest.setExternalReference(getExternalReference(serviceOrderId));
+        }
+        if(serviceOrderRequest.getOrderRelationship() != null || serviceOrderRequest.getOrderRelationship().isEmpty()){
+            deleteServiceOrderRelationshipByServiceOrderId(serviceOrderId);
+            saveServiceOrderRelationshipRequest(serviceOrderRequest.getOrderRelationship(), serviceOrderId);
+        }else{
+            serviceOrderRequest.setOrderRelationship(getServiceOrderRelationship(serviceOrderId));
+        }
+
+        if(serviceOrderRequest.getServiceOrderItem() != null || serviceOrderRequest.getServiceOrderItem().isEmpty()){
+            deleteServiceOrderItemByServiceOrderId(serviceOrderId);
+            saveServiceOrderItemRequest(serviceOrderRequest.getServiceOrderItem(), serviceOrderId);
+        }else{
+            serviceOrderRequest.setServiceOrderItem(getServiceOrderItem(serviceOrderId));
+        }
+
+        if(serviceOrderRequest.getNote() != null || serviceOrderRequest.getNote().isEmpty()){
+            deleteNoteByServiceOrderId(serviceOrderId);
+            saveNoteRequest(serviceOrderRequest.getNote(),serviceOrderId,null);
+        }else{
+            serviceOrderRequest.setNote(getNote(serviceOrderId));
+        }
+
+        if(serviceOrderRequest.getErrorMessage() != null || serviceOrderRequest.getErrorMessage().isEmpty()){
+            deleteServiceOrderErrorMessageByServiceOrderId(serviceOrderId);
+            saveServiceOrderErrorMessageRequest(serviceOrderRequest.getErrorMessage(),serviceOrderId);
+        }else{
+            serviceOrderRequest.setErrorMessage(getServiceOrderErrorMessage(serviceOrderId));
+        }
+
+        if(serviceOrderRequest.getMilestone() != null || serviceOrderRequest.getMilestone().isEmpty()){
+            deleteServiceOrderMilestoneByServiceOrderId(serviceOrderId);
+            saveServiceOrderMilestoneRequest(serviceOrderRequest.getMilestone(), serviceOrderId);
+        }else{
+            serviceOrderRequest.setMilestone(getServiceOrderMilestone(serviceOrderId));
+        }
+
+        if(serviceOrderRequest.getJeopardyAlert() != null || serviceOrderRequest.getJeopardyAlert().isEmpty()){
+            deleteServiceOrderJeopardyAlertByServiceOrderId(serviceOrderId);
+            saveJeopardyAlertRequest(serviceOrderRequest.getJeopardyAlert(), serviceOrderId);
+        }else{
+            serviceOrderRequest.setJeopardyAlert(getServiceOrderJeopardyAlert(serviceOrderId));
+        }
+
+        if(serviceOrderRequest.getRelatedParty() != null || serviceOrderRequest.getRelatedParty().isEmpty()){
+            deleteRelatedPartyByServiceOrderId(serviceOrderId);
+            saveRelatedPartyRequest(serviceOrderRequest.getRelatedParty(), serviceOrderId,null);
+        }else{
+            serviceOrderRequest.setRelatedParty(getRelatedParty(serviceOrderId));
+        }
+
+        ServiceOrderResponse  serviceOrderResponse = new ServiceOrderResponse();
+        BeanUtils.copyProperties(serviceOrderRequest, serviceOrderResponse);
+        String jsonString = new Gson().toJson(serviceOrderRequest);
+        serviceOrderDaoWriteRepository.updateServiceOrderJsonById(serviceOrderId, jsonString);
+        return serviceOrderResponse;
+
+    }
+    //todo
+
+    private void deleteExternalReferenceByServiceOrderId(String serviceOrderId) {
+        List<ExternalReference> externalReferenceList = serviceOrderDaoReadRepository.getExternalReferenceForServiceOrder(serviceOrderId);
+        if (externalReferenceList != null && !externalReferenceList.isEmpty()) {
+            StringBuilder
+            for (ExternalReference externalReference : externalReferenceList) {
+                if (externalReference.get)
+            }
+            serviceOrderDaoWriteRepository.deleteExternalReferenceByServiceOrderId(serviceOrderId);
+        }
+    }
+    //todo
+    private void deleteServiceOrderRelationshipByServiceOrderId(String serviceOrderId){
+        ServiceOrderRelationsh
+        serviceOrderDaoWriteRepository.deleteServiceOrderRelationshipByServiceOrderId(serviceOrderId);
+    }
+    //todo
+    private void deleteServiceOrderItemByServiceOrderId(String serviceOrderId){
+       List<ServiceOrderItem> serviceOrderItemList = serviceOrderDaoReadRepository.getServiceOrderItemForServiceOrder(serviceOrderId);
+       if(serviceOrderItemList !=null && !serviceOrderItemList.isEmpty()){
+
+       }
+    }
+    //todo
+    private void deleteNoteByServiceOrderId(String serviceOrderId){
+
+    }
+    private void deleteServiceOrderErrorMessageByServiceOrderId(String serviceOrderId){
+
+    }
+    private void deleteServiceOrderMilestoneByServiceOrderId(String serviceOrderId){
+
+    }
+    private void deleteServiceOrderJeopardyAlertByServiceOrderId(String serviceOrderId){
+
+    }
+    private void deleteRelatedPartyByServiceOrderId(String serviceOrderId){
+
+    }
+    private List<ExternalReferenceRequest> getExternalReferenceByServiceOrderId(String serviceOrderId){
+
+    }
+    private List<ServiceOrderRelationshipRequest> getServiceOrderRelationshipByServiceOrderId(String serviceOrderId){
+
+    }
+    private List<ExternalReference> getServiceOrderItemByServiceOrderId(String serviceOrderId){
+
+    }
+    private List<ExternalReference> getNoteByServiceOrderId(String serviceOrderId){
+
+    }
+    private List<ExternalReference> getServiceOrderMilestoneByServiceOrderId(String serviceOrderId){
+
+    }
+    private List<ServiceOrderJeopardyAlert> getServiceOrderJeopardyAlertByServiceOrderId(String serviceOrderId){
+
+    }
+    private List<RelatedParty> getRelatedPartyByServiceOrderId(String serviceOrderId){
+
+    }
 
 }

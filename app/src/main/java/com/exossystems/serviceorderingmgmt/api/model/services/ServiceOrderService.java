@@ -1,5 +1,8 @@
 package com.exossystems.serviceorderingmgmt.api.model.services;
 
+import com.exossystems.serviceorderingmgmt.api.model.domain.entity.ExternalReference;
+import com.exossystems.serviceorderingmgmt.api.model.domain.entity.RelatedParty;
+import com.exossystems.serviceorderingmgmt.api.model.domain.entity.ServiceOrderJeopardyAlert;
 import com.exossystems.serviceorderingmgmt.api.model.domain.request.*;
 import com.exossystems.serviceorderingmgmt.api.model.domain.response.PaginatedServiceOrderResponse;
 import com.exossystems.serviceorderingmgmt.api.model.domain.response.ServiceOrderResponse;
@@ -40,8 +43,10 @@ public interface ServiceOrderService {
     void saveResourceRefRequest(List<ResourceRefRequest>supportingResource, String serviceRefOrValueId);
     void saveServiceSpecificationRefRequest(ServiceSpecificationRefRequest serviceSpecification, String serviceRefOrValueId);
 
-    ServiceOrderResponse getServiceOrderById(String id);
+    ServiceOrderResponse getServiceOrderJsonById(String id);
 
     PaginatedServiceOrderResponse getPaginatedServiceOrder(Map<String, Object> requestParams, Integer limit, Integer offset);
+
+//    ServiceOrderResponse updateServiceOrder(String serviceOrderId, ServiceOrderRequest serviceOrderRequest);
 
 }
